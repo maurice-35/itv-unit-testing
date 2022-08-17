@@ -24,5 +24,14 @@ describe("given the InfoTile component is rendered", () => {
     expect(screen.getByRole("img", { name: infoTileMock.alt })).toBeInTheDocumet;
   });
 
-  it("then should contain all 4 bullet points with expected text in the correct order", () => {});
+  it("then should contain all 4 bullet points with expected text in the correct order", () => {
+    renderComponent()
+    const list = screen.getByRole("list");
+    const items = screen.getAllByRole("listitem")
+    
+    expect(items[0]).toHaveTextContent(infoTileMock.latin_name);
+    expect(items[1]).toHaveTextContent(infoTileMock.animal_type);
+    expect(items[2]).toHaveTextContent(infoTileMock.active_time);
+    expect(items[3]).toHaveTextContent(infoTileMock.habitat);
+  });
 });
