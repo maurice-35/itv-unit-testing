@@ -22,12 +22,22 @@ const likeContext = {
 };
 
 const renderListComponent = () => {
-  return render(<SavedList />);
+  return render(
+    <LikesContext.Provider
+      value={{ likes: mockLikesWithItems }}
+    >
+      <SavedList />
+    </LikesContext.Provider>
+  )
 };
 
 describe("given the SavedList component is rendered", () => {
   describe("when multiple liked items exist", () => {
-    it("then should contain multiple items with images and checkboxes, and the remove button should be disabled", () => {});
+    it("then should contain multiple items with images and checkboxes, and the remove button should be disabled", () => {
+      renderListComponent();
+      expect(screen.getByRole("img", { name: "Llama" })).toBeInTheDocument();
+
+    });
 
     describe("and the a checkbox for an item is selected", () => {
       describe("and the remove button is clicked", () => {
