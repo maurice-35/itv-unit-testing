@@ -34,9 +34,12 @@ const renderListComponent = () => {
 describe("given the SavedList component is rendered", () => {
   describe("when multiple liked items exist", () => {
     it("then should contain multiple items with images and checkboxes, and the remove button should be disabled", () => {
-      renderListComponent();
+      renderListComponent(mockLikesWithItems);
       expect(screen.getByRole("img", { name: "Llama" })).toBeInTheDocument();
-
+      expect(screen.getByRole("img", { name: "Ring-tailed Lemur" })).toBeInTheDocument();
+      expect(screen.getAllByRole("img")).toHaveLength(2);
+      expect(screen.getAllByRole("checkbox")).toHaveLength(2);
+      expect(screen.getByRole("button", { name: "Remove"})).toBeDisabled();
     });
 
     describe("and the a checkbox for an item is selected", () => {
