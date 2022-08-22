@@ -28,19 +28,9 @@ describe("given the InfoTile component is rendered", () => {
     renderComponent()
     const list = screen.getByRole("list");
     const items = screen.getAllByRole("listitem")
-    // for (var li = 0; li < items.length; li++){
-    //   let item = items[li];
-
-    //   expect(item).toHaveTextContent();
-    //   // console.log("Item: ", item);
-    // }
     expect(items[0]).toHaveTextContent(infoTileMock.latin_name);
     expect(items[1]).toHaveTextContent(infoTileMock.animal_type);
     expect(items[2]).toHaveTextContent(infoTileMock.active_time);
     expect(items[3]).toHaveTextContent(infoTileMock.habitat);
-
-    // console.log("ITEMS", items.length)
-    // expect(within(list).getAllByRole("listitem", { li: items.length })).toBeInTheDocument();
-    // expect(listitem).getAllByRole("listitem", { li: "name" })).toBeInTheDocument();
   });
 });

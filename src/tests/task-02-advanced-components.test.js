@@ -21,10 +21,12 @@ const likeContext = {
   removeItems: jest.fn(),
 };
 
-const renderListComponent = () => {
+const renderListComponent = (likes = {}) => {
+  likeContext.likes = likes;
+
   return render(
     <LikesContext.Provider
-      value={{ likes: mockLikesWithItems }}
+      value={likeContext}
     >
       <SavedList />
     </LikesContext.Provider>
@@ -39,17 +41,33 @@ describe("given the SavedList component is rendered", () => {
       expect(screen.getByRole("img", { name: "Ring-tailed Lemur" })).toBeInTheDocument();
       expect(screen.getAllByRole("img")).toHaveLength(2);
       expect(screen.getAllByRole("checkbox")).toHaveLength(2);
-      expect(screen.getByRole("button", { name: "Remove"})).toBeDisabled();
+      expect(screen.getByRole("button", { name: "Remove" })).toBeDisabled();
     });
 
     describe("and the a checkbox for an item is selected", () => {
       describe("and the remove button is clicked", () => {
-        it("then should call the removeItems function", () => {});
+        it("then should call the removeItems function", () => {
+          renderListComponent(mockLikesWithItems);
+
+          fireEvent.click(
+            screen.getAllByRole("checkbox", { name: "Select Llama to be removed", })[0]
+          );
+          fireEvent.click(
+            screen.getByRole("button", { name: "Remove", })
+          );
+          expect(likeContext.removeItems).toHaveBeenCalledWith(["123"]);
+        });
       });
     });
-  });
+    });
 
-  describe("when no liked items are stored", () => {
-    it("then should not contain a heading, and should not contain items", () => {});
+    describe("when no liked items are stored", () => {
+      it("then should not contain a heading, and should not contain items", () => {
+        renderListComponent();
+
+        expect(screen.queryByRole("heading", { name: "Animals I like" })).not.toBeInTheDocument();
+      expect(screen.queryByRole("img")).not.toBeInTheDocument();
+      expect(screen.queryByRole("buttom")).not.toBeInTheDocument();
+    });
   });
 });
